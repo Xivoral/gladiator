@@ -1,27 +1,33 @@
 import random
 
+# skapar klassen Gladiator
+
 class Gladiator:
     def __init__(self, namn, hälsa, styrka, snabbhet):
+        #Namn, hälsa, styrka och snabbhet
         self.namn = namn
         self.hälsa = hälsa
         self.styrka = styrka
         self.snabbhet = snabbhet
-    
+    # metod som ger namnet
     def visa_namn(self):
         return self.namn
 
+    # metod som ger hälsan
     def visa_hälsa(self):
         return self.hälsa
     
+    # metod som ger styrkan
     def visa_styrka(self):
         return self.styrka   
 
+    # metod som ger skadan
     def ta_skada(self, skada):
         self.hälsa -= skada
 
-    
+    # metod som ger snabbheten
     def visa_snabbhet(self):
-        return self.hälsa
+        return self.snabbhet
 Gladiator1 = Gladiator("Kämpe", 100, 10, 10)
 Gladiator2 = Gladiator("Fiende", 100, 10, 10)
 
