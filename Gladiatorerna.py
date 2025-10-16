@@ -1,5 +1,5 @@
 import random
-
+import colorama
 # skapar klassen Gladiator
 
 class Gladiator:
@@ -28,63 +28,69 @@ class Gladiator:
     # metod som ger snabbheten
     def visa_snabbhet(self):
         return self.snabbhet
-Gladiator1 = Gladiator("Kämpe", 100, 10, 10)
-Gladiator2 = Gladiator("Fiende", 100, 10, 10)
+    def __str__(self):
+        return self.namn
 
-strid = True
+def nytt_namn():
+    namn = input("Ange ditt gladiator namn: ")
+    return namn
 
-while strid == True:
-    attack = input("(1)Slå (2)Sparka (3)Kasta: ")
-    fiende_attack = str(random.randint(1,3))
-
-
-    if attack == "1":
-        Gladiator2.ta_skada(Gladiator1.styrka)
-        print(f"Du attackerar fienden med ett slag och den tar " + str(Gladiator1.visa_styrka()) + " skada ")
-        print(f"Fienden har nu " + str(Gladiator2.visa_hälsa()) + " kvar.")
-        print(Gladiator2.visa_hälsa())
-
-    elif attack == "2":
-        Gladiator2.ta_skada(Gladiator1.styrka)
-        print(f"Du attackerar fienden med en spark och den tar " + str(Gladiator1.visa_styrka()) + " skada ")
-        print(f"Fienden har nu " + str(Gladiator2.visa_hälsa()) + " kvar.")
-        print(Gladiator2.visa_hälsa())
-    
-    elif attack == "3":
-        Gladiator2.ta_skada(Gladiator1.styrka)
-        print(f"Du attackerar fienden med ett kast och den tar " + str(Gladiator1.visa_styrka()) + " skada ")
-        print(f"Fienden har nu " + str(Gladiator2.visa_hälsa()) + " hälsa kvar.")
-        print(Gladiator2.visa_hälsa())
+def attackera(attack, attackerare, offer):
+    skada = random.randint(7, 13)
+    offer.ta_skada(skada)
+    if offer.visa_hälsa() < 0:
+        print(f"{colorama.Fore.RED}{attackerare} {colorama.Fore.RESET}attackerar {colorama.Fore.BLUE}{offer} {colorama.Fore.RESET}med {colorama.Fore.MAGENTA}{attack} {colorama.Fore.RESET}och {colorama.Fore.BLUE}{offer} {colorama.Fore.RESET}tar {colorama.Fore.WHITE}{skada} {colorama.Fore.RESET}skada ")
+        print(f"{colorama.Fore.BLUE}{offer} {colorama.Fore.RESET}har nu {colorama.Fore.GREEN}{0} {colorama.Fore.RESET}hälsopoäng kvar")
     else:
-        print("Du skrev fel, gå vidare till nästa runda")
-        continue
+        print(f"{colorama.Fore.RED}{attackerare} {colorama.Fore.RESET}attackerar {colorama.Fore.BLUE}{offer} {colorama.Fore.RESET}med {colorama.Fore.MAGENTA}{attack} {colorama.Fore.RESET}och {colorama.Fore.BLUE}{offer} {colorama.Fore.RESET}tar {colorama.Fore.WHITE}{skada} {colorama.Fore.RESET}skada ")
+        print(f"{colorama.Fore.BLUE}{offer} {colorama.Fore.RESET}har nu {colorama.Fore.GREEN}{offer.visa_hälsa()} {colorama.Fore.RESET}hälsopoäng kvar")
+
     
-    if fiende_attack == "1":
-        Gladiator1.ta_skada(Gladiator2.styrka)
-        print(f"Fienden attackerar dig med ett slag och du tar " + str(Gladiator2.visa_styrka()) + " skada ")
-        print(f"Fienden har nu " + str(Gladiator1.visa_hälsa()) + " kvar.")
-        print(Gladiator1.visa_hälsa())
 
-    elif fiende_attack == "2":
-        Gladiator1.ta_skada(Gladiator2.styrka)
-        print(f"Fienden attackerar dig med en spark och du tar " + str(Gladiator1.visa_styrka()) + " skada ")
-        print(f"Du har nu " + str(Gladiator1.visa_hälsa()) + " kvar.")
-        print(Gladiator1.visa_hälsa())
+fiende_lista = ["Maximus", "Gandalf", "Muskkkk"]
+fiende_attack = ["Kast, Slag, Spark"]
+strid = False
+
+menu = True
+
+while menu == True:
+    print("Välkommen till Gladiatorerna!")
+    spelar_namn = nytt_namn()
+    fiende_namn = random.choice(fiende_lista)
+    Gladiator1 = Gladiator(spelar_namn, 35, 10, 10)
+    Gladiator2 = Gladiator(fiende_namn, 35, 10, 10)
+    strid = True
+    print("Striden har nu påbörjats!")
+    print("")
+    menu = False
     
-    elif fiende_attack == "3":
-        Gladiator1.ta_skada(Gladiator2.styrka)
-        print(f"Fienden attackerar dig med ett kast och du tar " + str(Gladiator1.visa_styrka()) + " skada ")
-        print(f"Du har nu " + str(Gladiator1.visa_hälsa()) + " hälsa kvar.")
-        print(Gladiator1.visa_hälsa())
+while strid == True:
+    print("Det är nu din tur!")
+    print("")
+    attack_typ = input("Attackera med Slag, Spark eller Kast: ").lower()
+    # Kollar om attacken är korrekt eller inte genom att se om den tillhör listan. Kanske eventuellt gör en lista som beror på vapnet när jag lägger till det.
+    while attack_typ not in ["slag", "spark", "kast"]:
+        print("Du gjorde fel, försök igen!")
+        attack_typ = input("Attackera med Slag, Spark eller Kast: ").lower()
+    
 
-
-
+    fiende_attack = random.choice(fiende_attack)
+    print("═══════════════════════════════════════════════════════════════")
+    attackera(attack_typ, Gladiator1, Gladiator2)
     if Gladiator2.visa_hälsa() <= 0:
-        print("Du vann!!")
-        strid = False
-    elif Gladiator1.visa_hälsa() <= 0:
-        print("Du förlorade!!")
-        strid = False
+        print(f"{colorama.Fore.YELLOW}Du vann!!")
+        break
+    print("═══════════════════════════════════════════════════════════════")
+    print("Det är nu fiendens Tur!")
+    print("═══════════════════════════════════════════════════════════════")
+    attackera(attack_typ, Gladiator2, Gladiator1)
+    if Gladiator1.visa_hälsa() <= 0:
+        print(f"{colorama.Fore.CYAN}Du förlorade!!{colorama.Fore.RESET}")
+        break
+   
+    print("")
+    print("═══════════════════════════════════════════════════════════════")
+
     
 
 
